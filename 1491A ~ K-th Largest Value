@@ -1,0 +1,331 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+using d = int; 
+using ll = long long;
+using ud = unsigned int;
+using ull = unsigned long long;
+using lf = double;
+using llf = long double;
+using ch = char;
+using st = string;
+using bl = bool;
+using vo = void;
+
+#define ci cin
+#define co cout
+
+#define fi( x, n ) for( d i = x; i < n; i++ )
+#define fj( x, n ) for( d j = x; j < n; j++ )
+#define fin( x, n ) for( d i = x; i <= n; i++ )
+#define fjn( x, n ) for( d j = x; j <= n; j++ )
+#define wh while
+#define w( n ) while( n-- )
+
+#define pd pair<d,d>
+#define pll pair<ll,ll>
+#define plf pair<lf,lf>
+#define pch pair<ch,ch>
+#define pst pair<st,st>
+#define pbl pair<bl,bl>
+
+#define pdll pair<d,ll>
+#define pdlf pair<d,lf>
+#define pdch pair<d,ch>
+#define pdst pair<d,st>
+#define pdbl pair<d,bl>
+
+#define plld pair<ll,d>
+#define plllf pair<ll,lf>
+#define pllch pair<ll,ch>
+#define pllst pair<ll,st>
+#define pllbl pair<ll,bl>
+
+#define plfd pair<lf,d>
+#define plfll pair<lf,ll>
+#define plfch pair<lf,ch>
+#define plfst pair<lf,st>
+#define plfbl pair<lf,bl>
+
+#define pchd pair<ch,d>
+#define pchll pair<ch,ll>
+#define pchlf pair<ch,lf>
+#define pchst pair<ch,st>
+#define pchbl pair<ch,bl>
+
+#define pstd pair<st,d>
+#define pstll pair<st,ll>
+#define pstlf pair<st,lf>
+#define pstch pair<st,ch>
+#define pstbl pair<st,bl>
+
+
+#define sd set<d>
+#define sll set<ll>
+#define slf set<lf>
+#define sch set<ch>
+#define sst set<st>
+
+
+#define vd vector<d>
+#define vll vector<ll>
+#define vlf vector<lf>
+#define vch vector<ch>
+#define vst vector<st>
+#define vpd vector<pd>
+#define vpll vector<pll>
+#define vplf vector<plf>
+#define vpch vector<pch>
+#define vpst vector<pst>
+#define vpbl vector<pbl>
+
+#define sz(x) x.size()
+#define vsoa(x) sort( x.begin(), x.end() )
+#define vsod(x) sort( x.rbegin(), x.rend() )
+#define psoa(x) sort( x.begin(), x.end(), SortBySecAsc );
+#define psod(x) sort( x.begin(), x.end(), SortBySecDes );
+#define aso(x, n) sort( x, x+n )
+#define cou(x, y) count( x.begin(), x.end(), y ) 
+
+#define in insert
+#define ct count
+#define fd find
+#define pb push_back
+#define er erase
+#define be begin
+#define en end
+#define fst first
+#define snd second
+#define mp make_pair
+#define np next_permutation
+
+#define el endl
+
+
+vo InputOutput()
+{
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	#endif
+}
+
+
+ll AscendingOfDigits( ll num )  //rearranging the digits of a number in ASCENDING order
+{
+    d digit[10] = {};
+
+    wh( num != 0 )
+    {
+        digit[num%10]++;
+        num /= 10;
+    }
+
+    for( d i = 9; i >= 0; i-- )
+    {
+        for( d j = 1; j <= digit[i]; j++ )
+            num = (num * 10) + i;
+    }
+
+    return num;
+}
+
+
+ll BigMod( ll B, ll P, ll M )  // O( (log m) 2 log n )
+{
+    ll ans = 1;
+
+    B %= M;
+
+    wh( P != 0 )
+    {
+        if( P % 2 )
+            ans = (ans * B) % M;
+
+        B = (B * B) % M;
+        P /= 2;
+    }
+
+    return ans;
+}
+
+
+ll Combination( ll N, ll R )
+{
+    ll ans;
+
+    if( N == R )
+        return 1;
+
+    if( R > (N / 2) )
+        R = N - R;
+
+    ans = N--;
+
+    for( ll i = 2; i <= R; i++, N-- )
+    {
+        ans *= N;
+        ans /= i;
+    }
+
+    return ans;
+}
+
+
+ll DescendingOfDigits( ll num )  //rearranging the digits of a number in DESCENDING order
+{
+    d digit[10] = {};
+
+    wh( num != 0 )
+    {
+        digit[num%10]++;
+        num /= 10;
+    }
+
+    for( d i = 0; i <= 9; i++ )
+    {
+        for( d j = 1; j <= digit[i]; j++ )
+            num = (num * 10) + i;
+    }
+
+    return num;
+}
+
+
+ll GCD( ll num1, ll num2 )  //Euclidean Algorithm
+{
+    ll temp;
+
+    wh( num2 != 0 )
+    {
+        temp = num2;
+        num2 = num1 % num2;
+        num1 = temp;
+    }
+
+    return num1;
+}
+
+
+d IsPrime( d num )  // O( n / 2 )
+{
+	if( num <= 2 )
+        return 0;
+
+    if( num % 2 == 0 )
+        return 0;
+    else
+    {
+        for( d i = 3; i*i <= num; i += 2 )
+        {
+            if( num % i == 0 )
+                return 0;
+        }
+
+        return 1;
+    }
+}
+
+
+#define SIZE 100000
+bl check[SIZE];
+vd prime;
+
+
+void Sieve( d number )  // O( n * log(log(n)) )
+{
+    d i, j;
+
+    check[0] = check[1] = 1;
+
+    for( i = 2; i*i <= number; i++ )
+    {
+        if( check[i] == 0 )
+        {
+            for( j = i*i; j <= number; j += i )
+                check[j] = 1;
+        }
+    }
+
+    for( i = 2; i <= number; i++ )
+    {
+        if( check[i] == 0 )
+            prime.pb( i );
+    }
+}
+
+
+bl SortBySecDes(const pll &a, const pll &b) 
+{ 
+    return (a.snd > b.snd); 
+}
+
+
+bl SortBySecAsc(const pll &a, const pll &b) 
+{ 
+    return (a.snd < b.snd); 
+}
+
+
+ll SumOfDigits( ll num )  //sum the digits of a number
+{
+    ll sum = 0;
+
+    wh( num != 0 )
+    {
+        sum += num % 10;
+        num /= 10;
+    }
+
+    return sum;
+}
+
+d main()
+{
+	InputOutput();
+
+	d n, q, t, x, l;
+
+    ci >> n >> q;
+
+    d a[n+1];
+
+    l = 0;
+
+    fin( 1, n )
+    {
+        ci >> a[i];
+
+        if( a[i] )
+            l++;
+    }
+
+    fi( 0, q )
+    {
+        ci >> t >> x;
+
+        if( t == 1 )
+        {
+            if( a[x] )
+            {
+                a[x] = 0;
+                l--;
+            }
+            else
+            {
+                a[x] = 1;
+                l++;
+            }
+        }
+        else
+        {
+            if( l >= x )
+                co << 1 << el;
+            else
+                co << 0 << el;
+        }
+
+    }
+
+	return 0;
+}
